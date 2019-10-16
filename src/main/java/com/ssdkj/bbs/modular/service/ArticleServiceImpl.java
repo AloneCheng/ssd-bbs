@@ -30,6 +30,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleManager manager;
 
+
+
     @Autowired
     private ParseRecordService parseRecordService;
     @Override
