@@ -1,0 +1,37 @@
+Manifest-Version: 1.0
+Class-Path: spring-boot-starter-data-redis-2.1.8.RELEASE.jar commons-l
+ ogging-1.2.jar netty-buffer-4.1.39.Final.jar slf4j-api-1.7.28.jar spr
+ ing-data-keyvalue-2.1.10.RELEASE.jar netty-common-4.1.39.Final.jar sd
+ k-6.1.0.jar hibernate-validator-6.0.17.Final.jar jackson-datatype-jsr
+ 310-2.9.9.jar HikariCP-3.2.0.jar mysql-connector-java-8.0.17.jar jack
+ son-datatype-jdk8-2.9.9.jar httpcore-4.4.12.jar mybatis-spring-boot-a
+ utoconfigure-1.1.1.jar spring-tx-5.1.9.RELEASE.jar spring-web-5.1.9.R
+ ELEASE.jar hutool-core-4.6.1.jar spring-jdbc-5.1.9.RELEASE.jar httpcl
+ ient-cache-4.5.9.jar jsqlparser-0.9.1.jar okio-1.8.0.jar mybatis-3.4.
+ 0.jar tomcat-embed-websocket-9.0.24.jar tomcat-embed-el-9.0.24.jar ja
+ ckson-databind-2.9.9.3.jar netty-resolver-4.1.39.Final.jar lombok-1.1
+ 8.8.jar javax.annotation-api-1.3.2.jar spring-boot-starter-web-2.1.8.
+ RELEASE.jar tomcat-embed-core-9.0.24.jar gson-2.6.2.jar spring-webmvc
+ -5.1.9.RELEASE.jar spring-boot-starter-jdbc-2.1.8.RELEASE.jar spring-
+ boot-starter-tomcat-2.1.8.RELEASE.jar httpclient-4.5.9.jar reactive-s
+ treams-1.0.3.jar mybatis-spring-1.3.0.jar spring-data-commons-2.1.10.
+ RELEASE.jar spring-beans-5.1.9.RELEASE.jar jboss-logging-3.3.3.Final.
+ jar httpmime-4.5.9.jar netty-codec-4.1.39.Final.jar spring-aop-5.1.9.
+ RELEASE.jar mybatis-spring-boot-starter-1.1.1.jar spring-boot-starter
+ -2.1.8.RELEASE.jar jackson-annotations-2.9.0.jar commons-codec-1.11.j
+ ar happy-dns-java-0.1.4.jar commons-cli-1.2.jar spring-context-suppor
+ t-5.1.9.RELEASE.jar org.json-chargebee-1.0.jar UserAgentUtils-1.20.ja
+ r spring-boot-autoconfigure-2.1.8.RELEASE.jar validation-api-2.0.1.Fi
+ nal.jar lettuce-core-5.1.8.RELEASE.jar jackson-core-2.9.9.jar spring-
+ boot-2.1.8.RELEASE.jar fastjson-1.2.58.jar snakeyaml-1.23.jar spring-
+ boot-starter-json-2.1.8.RELEASE.jar pagehelper-4.0.1.jar spring-jcl-5
+ .1.9.RELEASE.jar spring-expression-5.1.9.RELEASE.jar httpcore-nio-4.4
+ .12.jar classmate-1.4.0.jar spring-data-redis-2.1.10.RELEASE.jar nett
+ y-transport-4.1.39.Final.jar log4j-1.2.17.jar okhttp-3.3.1.jar fluent
+ -hc-4.5.9.jar spring-oxm-5.1.9.RELEASE.jar spring-boot-devtools-2.1.8
+ .RELEASE.jar jackson-module-parameter-names-2.9.9.jar httpcore-ab-4.2
+ .1.jar netty-handler-4.1.39.Final.jar qiniu-java-sdk-7.2.11.jar sprin
+ g-core-5.1.9.RELEASE.jar spring-context-5.1.9.RELEASE.jar reactor-cor
+ e-3.2.12.RELEASE.jar
+Main-Class: com.ssdkj.bbs.SsdBbsApplication
+

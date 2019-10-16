@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+    <classPathEntry location="E:\repository\mysql\mysql-connector-java\5.1.25\mysql-connector-java-5.1.25.jar"/>
+    <context id="tables" >
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://106.75.73.22:3306/ssdkj" userId="root" password="ABcd1234!" />
+        <javaModelGenerator targetPackage="com.ssdkj.bbs.modular.model" targetProject="src/main/java" />
+        <sqlMapGenerator targetPackage="mappers" targetProject="src/main/java" />
+        <javaClientGenerator targetPackage="com.ssdkj.bbs.modular.dao" targetProject="src/main/java" type="XMLMAPPER" />
+
+        <!--<table tableName="user" domainObjectName="User">-->
+            <!--<columnOverride column="userId" javaType="Long" property="userId"/>-->
+            <!--<columnOverride column="nickName" javaType="String" property="nickName"/>-->
+            <!--<columnOverride column="headImgurl" javaType="String" property="headImgurl"/>-->
+            <!--<columnOverride column="userSex" javaType="Integer" property="userSex"/>-->
+            <!--<columnOverride column="userRole" javaType="String" property="userRole"/>-->
+            <!--<columnOverride column="openId" javaType="String" property="openId"/>-->
+            <!--<columnOverride column="creatTime" javaType="String" property="creatTime"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="article" domainObjectName="Article">-->
+            <!--<columnOverride column="articleId" javaType="Long" property="articleId"/>-->
+            <!--<columnOverride column="articleTag" javaType="Integer" property="articleTag"/>-->
+            <!--<columnOverride column="articleType" javaType="Integer" property="articleType"/>-->
+            <!--<columnOverride column="articleAuthorId" javaType="Long" property="articleAuthorId"/>-->
+            <!--<columnOverride column="nickName" javaType="String" property="nickName"/>-->
+            <!--<columnOverride column="headImgurl" javaType="String" property="headImgurl"/>-->
+            <!--<columnOverride column="articleCommentCount" javaType="Integer" property="articleCommentCount"/>-->
+            <!--<columnOverride column="articleViewCount" javaType="Integer" property="articleViewCount"/>-->
+            <!--<columnOverride column="articleParseCount" javaType="Integer" property="articleParseCount"/>-->
+            <!--<columnOverride column="articleContent" javaType="String" property="articleContent"/>-->
+            <!--<columnOverride column="articlePutTop" javaType="Integer" property="articlePutTop"/>-->
+            <!--<columnOverride column="articleSequence" javaType="Integer" property="articleSequence"/>-->
+            <!--<columnOverride column="articleCreateTime" javaType="String" property="articleCreateTime"/>-->
+            <!--<columnOverride column="articleUpdateTime" javaType="String" property="articleUpdateTime"/>-->
+            <!--<columnOverride column="articleCommentable" javaType="Integer" property="articleCommentable"/>-->
+            <!--<columnOverride column="articleImgURL" javaType="String" property="articleImgURL"/>-->
+            <!--<columnOverride column="articleStatus" javaType="Integer" property="articleStatus"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="comment" domainObjectName="Comment">-->
+            <!--<columnOverride column="commentId" javaType="Long" property="commentId"/>-->
+            <!--<columnOverride column="commentContent" javaType="String" property="commentContent"/>-->
+            <!--<columnOverride column="commentCreateTime" javaType="String" property="commentCreateTime"/>-->
+            <!--<columnOverride column="commentAuthorId" javaType="Long" property="commentAuthorId"/>-->
+            <!--<columnOverride column="headImgurl" javaType="String" property="headImgurl"/>-->
+            <!--<columnOverride column="commentNickName" javaType="String" property="commentNickName"/>-->
+            <!--<columnOverride column="articleId" javaType="Long" property="articleId"/>-->
+            <!--<columnOverride column="commentParseCount" javaType="Integer" property="commentParseCount"/>-->
+            <!--<columnOverride column="commentPutTop" javaType="Integer" property="commentPutTop"/>-->
+        <!--</table>-->
+
+
+        <table tableName="parseRecord" domainObjectName="ParseRecord">
+            <columnOverride column="parseId" javaType="Long" property="parseId"/>
+            <columnOverride column="parseAuthorId" javaType="Long" property="parseAuthorId"/>
+            <columnOverride column="articleId" javaType="Long" property="articleId"/>
+            <columnOverride column="parseTime" javaType="String" property="parseTime"/>
+        </table>
+
+    </context>
+</generatorConfiguration>
