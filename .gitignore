@@ -36,3 +36,7 @@ META-INF
 /mvnw.cmd
 /.gitignore
 /firestorm.log
+/*.gitignore
+/*.log
+/mvnw
+/*.cmd
