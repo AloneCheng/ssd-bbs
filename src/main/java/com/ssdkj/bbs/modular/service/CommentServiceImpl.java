@@ -8,8 +8,10 @@ import com.ssdkj.bbs.common.dto.PageList;
 import com.ssdkj.bbs.common.dto.Response;
 import com.ssdkj.bbs.common.enums.BbsCenterEnum;
 import com.ssdkj.bbs.modular.api.CommentService;
+import com.ssdkj.bbs.modular.dao.ArticleMapper;
 import com.ssdkj.bbs.modular.dao.CommentMapper;
 import com.ssdkj.bbs.modular.manager.CommentManager;
+import com.ssdkj.bbs.modular.model.Article;
 import com.ssdkj.bbs.modular.model.Comment;
 import com.ssdkj.bbs.modular.model.CommentExample;
 import lombok.extern.log4j.Log4j;
@@ -23,6 +25,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     CommentMapper commentMapper;
+
+    @Autowired
+    ArticleMapper articleMapper;
 
 
     @Autowired
@@ -90,6 +95,10 @@ public class CommentServiceImpl implements CommentService {
             if (reslut < 1) {
                 return Response.fail(BbsCenterEnum.insert_memberAttr_error.getCode(), BbsCenterEnum.insert_memberAttr_error.getMessage());
             }
+            //文章评论次数+1
+            Article article = new Article();
+            article.setArticleId(comment.getArticleId());
+            articleMapper.addCommentOne(article);
         } catch (Exception e) {
             log.error("error.Activity.saveComment", e);
             return Response.fail(BbsCenterEnum.exception_error.getCode(), BbsCenterEnum.exception_error.getMessage());

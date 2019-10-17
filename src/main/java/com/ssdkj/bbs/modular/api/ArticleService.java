@@ -15,4 +15,6 @@ public interface ArticleService {
     public Response<Boolean> removeArticle(long articleId);
 
     public Response<Boolean> updateArticle(Article article);
+
+    public Response<Boolean> putTop(QueryArticleVo articleVo);
 }

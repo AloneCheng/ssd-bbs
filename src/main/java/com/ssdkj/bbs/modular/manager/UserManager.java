@@ -29,6 +29,7 @@ public class UserManager {
 			}
 		} catch (Exception e) {
 			log.error("DB saveUser fail ", e);
+			return -1;
 		}
 		return result;
 	}
@@ -44,6 +45,7 @@ public class UserManager {
 	        }
 	    } catch (Exception e) {
 	        log.error("DB updateUser fail ", e);
+			return -1;
 	    }
 	    return result;
 	}

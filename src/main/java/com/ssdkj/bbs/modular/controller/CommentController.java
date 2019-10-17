@@ -5,6 +5,7 @@ import com.ssdkj.bbs.common.dto.PageList;
 import com.ssdkj.bbs.common.dto.Response;
 import com.ssdkj.bbs.common.vo.HttpResponse;
 import com.ssdkj.bbs.core.util.SnowflakeIdWorker;
+import com.ssdkj.bbs.modular.api.ArticleService;
 import com.ssdkj.bbs.modular.api.CommentService;
 import com.ssdkj.bbs.modular.model.Comment;
 import com.ssdkj.bbs.modular.model.Comment;
@@ -25,7 +26,7 @@ public class CommentController {
     @ResponseBody
     public HttpResponse addComment(@RequestBody Comment comment) {
         log.info("Invoke commentService.saveComment,input param: " + JSON.toJSONString(comment));
-        comment.setCommentId(SnowflakeIdWorker.getID());
+//        comment.setCommentId(SnowflakeIdWorker.getID());
         Response<Boolean> response = commentService.addComment(comment);
         log.info("Invoke commentService.saveComment,resp: " + JSON.toJSONString(response));
         return HttpResponse.convert(response);

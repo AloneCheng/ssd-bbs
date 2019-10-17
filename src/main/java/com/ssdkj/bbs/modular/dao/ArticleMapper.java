@@ -123,4 +123,8 @@ public interface ArticleMapper {
      * @mbggenerated Thu Oct 10 10:23:40 CST 2019
      */
     int updateByPrimaryKey(Article record);
+
+    //评论+1
+    int addCommentOne(Article record);
+    int addViewOne(Article record);
 }

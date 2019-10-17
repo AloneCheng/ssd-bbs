@@ -29,6 +29,7 @@ public class ParseRecordManager {
 			}
 		} catch (Exception e) {
 			log.error("DB saveParseRecord fail ", e);
+			return -1;
 		}
 		return result;
 	}
@@ -44,6 +45,7 @@ public class ParseRecordManager {
 	        }
 	    } catch (Exception e) {
 	        log.error("DB updateParseRecord fail ", e);
+			return -1;
 	    }
 	    return result;
 	}
@@ -59,6 +61,7 @@ public class ParseRecordManager {
 	        }
 	    } catch (Exception e) {
 	        log.error("DB removeParseRecord fail ", e);
+			return -1;
 	    }
 	    return result;
 	}

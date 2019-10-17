@@ -554,4 +554,18 @@
       articleStatus = #{articleStatus,jdbcType=TINYINT}
     where articleId = #{articleId,jdbcType=BIGINT}
   </update>
+  <update id="addCommentOne" parameterType="com.ssdkj.bbs.modular.model.Article" >
+    update article
+    set
+      articleCommentCount = articleCommentCount+1,
+      articleUpdateTime = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
+    where articleId = #{articleId,jdbcType=BIGINT}
+  </update>
+  <update id="addViewOne" parameterType="com.ssdkj.bbs.modular.model.Article" >
+    update article
+    set
+      articleViewCount = articleViewCount+1,
+      articleUpdateTime = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
+    where articleId = #{articleId,jdbcType=BIGINT}
+  </update>
 </mapper>

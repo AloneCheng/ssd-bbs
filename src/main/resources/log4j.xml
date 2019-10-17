@@ -13,30 +13,30 @@
         <!--</filter>-->
     </appender>
 
-	<!--<appender name="SysLog" class="org.apache.log4j.DailyRollingFileAppender">-->
-		<!--<param name="File" value="/opt/log/ssd-bbs.log"/>-->
-		  <!--<param name="Append" value="true" />-->
-		<!--<param name="DatePattern" value="'.'yyyy-MM-dd" />-->
-		<!--<layout class="org.apache.log4j.PatternLayout">-->
-			<!--<param name="ConversionPattern" value="%d [%t] %-5p [%c] %L - %m%n" />-->
-		<!--</layout>-->
-		<!--<filter class="org.apache.log4j.varia.LevelRangeFilter">-->
-			<!--<param name="LevelMax" value="ALL"/>-->
-			<!--<param name="LevelMin" value="INFO"/>-->
-		<!--</filter>-->
-	<!--</appender>-->
-	<!--<appender name="DataLog" class="org.apache.log4j.DailyRollingFileAppender">-->
-		<!--<param name="File" value="/opt/log/ssd-bbs.log"/>-->
-		  <!--<param name="Append" value="true" />-->
-		<!--<param name="DatePattern" value="'.'yyyy-MM-dd" />-->
-		<!--<layout class="org.apache.log4j.PatternLayout">-->
-			<!--<param name="ConversionPattern" value="%m%n" />-->
-		<!--</layout>-->
-		<!--<filter class="org.apache.log4j.varia.LevelRangeFilter">-->
-			<!--<param name="LevelMax" value="INFO"/>-->
-			<!--<param name="LevelMin" value="INFO"/>-->
-		<!--</filter>-->
-	<!--</appender>-->
+	<appender name="SysLog" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/opt/log/ssd-bbs.log"/>
+		  <param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p [%c] %L - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="ALL"/>
+			<param name="LevelMin" value="INFO"/>
+		</filter>
+	</appender>
+	<appender name="DataLog" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/opt/log/ssd-bbs.log"/>
+		  <param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="INFO"/>
+			<param name="LevelMin" value="INFO"/>
+		</filter>
+	</appender>
 
 	<!--<category name="com.geda.site.common.log.DataLog" additivity="false">-->
        <!--<appender-ref ref="DataLog"/>-->
@@ -51,7 +51,7 @@
 <!--         <priority value ="INFO" />        -->
         <priority value ="all"/>
         <appender-ref ref="myConsole"/>
-        <!--<appender-ref ref="SysLog" />-->
+        <appender-ref ref="SysLog" />
 	</root>
 
 </log4j:configuration>

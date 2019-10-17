@@ -33,6 +33,7 @@ public class ArticleManager {
 			}
 		} catch (Exception e) {
 			log.error("DB saveArticle fail ", e);
+			return -1;
 		}
 		return result;
 	}
@@ -48,6 +49,7 @@ public class ArticleManager {
 	        }
 	    } catch (Exception e) {
 	        log.error("DB updateArticle fail ", e);
+			return -1;
 	    }
 	    return result;
 	}
@@ -69,6 +71,7 @@ public class ArticleManager {
 	        }
 	    }catch (Exception e) {
 			log.error("DB removeArticle fail ", e);
+			return -1;
 		}
 	    return result;
 	}

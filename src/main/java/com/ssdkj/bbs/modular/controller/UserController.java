@@ -28,7 +28,7 @@ public class UserController {
     @ResponseBody
     public HttpResponse addUser(User user) {
         log.info("Invoke userService.saveUser,input param: " + JSON.toJSONString(user));
-        user.setUserId(SnowflakeIdWorker.getID());
+//        user.setUserId(SnowflakeIdWorker.getID());
         Response<Boolean> response = userService.addUser(user);
         log.info("Invoke userService.saveUser,resp: " + JSON.toJSONString(response));
         return HttpResponse.convert(response);

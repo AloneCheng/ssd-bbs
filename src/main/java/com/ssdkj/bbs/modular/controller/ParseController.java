@@ -50,7 +50,7 @@ public class ParseController {
                 parseCount = articleResponse.getResult().getArticleParseCount() - 1 < 0 ? 0 : articleResponse.getResult().getArticleParseCount() - 1;
             } else {
                 //没有就是点赞,添加记录
-                parseRecord.setParseId(SnowflakeIdWorker.getID());
+//                parseRecord.setParseId(SnowflakeIdWorker.getID());
                 parseRecordService.addParseRecord(parseRecord);
                 parseCount = articleResponse.getResult().getArticleParseCount() + 1;
             }

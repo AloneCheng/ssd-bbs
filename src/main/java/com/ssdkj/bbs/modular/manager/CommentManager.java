@@ -29,6 +29,7 @@ public class CommentManager {
 			}
 		} catch (Exception e) {
 			log.error("DB saveComment fail ", e);
+			return -1;
 		}
 		return result;
 	}
@@ -44,6 +45,7 @@ public class CommentManager {
 	        }
 	    } catch (Exception e) {
 	        log.error("DB updateComment fail ", e);
+			return -1;
 	    }
 	    return result;
 	}
@@ -59,6 +61,7 @@ public class CommentManager {
 	        }
 	    } catch (Exception e) {
 	        log.error("DB removeComment fail ", e);
+			return -1;
 	    }
 	    return result;
 	}

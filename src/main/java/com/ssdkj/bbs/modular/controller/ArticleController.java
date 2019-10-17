@@ -26,7 +26,7 @@ public class ArticleController {
     @ResponseBody
     public HttpResponse addArticle(@RequestBody Article article) {
         log.info("Invoke articleService.saveArticle,input param: " + JSON.toJSONString(article));
-        article.setArticleId(SnowflakeIdWorker.getID());
+//        article.setArticleId(SnowflakeIdWorker.getID());
         Response<Boolean> response = articleService.addArticle(article);
         log.info("Invoke articleService.saveArticle,resp: " + JSON.toJSONString(response));
         return HttpResponse.convert(response);
@@ -73,6 +73,16 @@ public class ArticleController {
         log.info("Invoke articleService.queryArticles,input param: " + JSON.toJSONString(article));
         Response<PageList<Article>> response = articleService.queryArticles(article);
         log.info("Invoke articleService.queryArticles,resp: " + JSON.toJSONString(response));
+        return HttpResponse.convert(response);
+    }
+
+
+    @RequestMapping(value = "/putTop", method = RequestMethod.POST)
+    @ResponseBody
+    public HttpResponse putTop(@RequestBody QueryArticleVo articleVo) {
+        log.info("Invoke articleService.putTop,input param: " + articleVo);
+        Response<Boolean> response = articleService.putTop(articleVo);
+        log.info("Invoke articleService.putTop,resp: " + JSON.toJSONString(response));
         return HttpResponse.convert(response);
     }
 

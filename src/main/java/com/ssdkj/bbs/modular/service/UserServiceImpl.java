@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Response<Boolean> addUser(User user) {
-        log.info("Input param,ActivityInfo: " + JSON.toJSONString(user));
+        log.info("Input param,User: " + JSON.toJSONString(user));
         try {
             if (user == null) {
                 return Response.fail(BbsCenterEnum.request_params_null.getCode(), BbsCenterEnum.request_params_null.getMessage());
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService{
                 return Response.fail(BbsCenterEnum.insert_memberAttr_error.getCode(), BbsCenterEnum.insert_memberAttr_error.getMessage());
             }
         } catch (Exception e) {
-            log.error("error.Activity.saveActivityInfo", e);
+            log.error("error.Activity.saveUser", e);
             return Response.fail(BbsCenterEnum.exception_error.getCode(), BbsCenterEnum.exception_error.getMessage());
         }
         return Response.ok(true);

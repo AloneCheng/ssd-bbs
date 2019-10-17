@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.ssdkj.bbs.common.dto.PageList;
 import com.ssdkj.bbs.common.dto.Response;
 import com.ssdkj.bbs.common.enums.BbsCenterEnum;
+import com.ssdkj.bbs.common.vo.HttpResponse;
 import com.ssdkj.bbs.common.vo.QueryArticleVo;
 import com.ssdkj.bbs.core.util.StringUtils;
 import com.ssdkj.bbs.modular.api.ArticleService;
@@ -39,6 +40,10 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = null;
         try {
             article = articleMapper.selectByPrimaryKey(articleVo.getArticleId());
+            //交易类型文章浏览次数+1
+            if(article.getArticleType()!=1){
+                articleMapper.addViewOne(articleVo);
+            }
             if (articleVo.getParseAuthorId()!=null){
                 ParseRecord parseRecord = new ParseRecord();
                 parseRecord.setArticleId(articleVo.getArticleId());
@@ -84,7 +89,7 @@ public class ArticleServiceImpl implements ArticleService {
                 if (seacher.getArticleTag() != null) {
                     cia.andArticleTagEqualTo(seacher.getArticleTag());
                 }
-                example.setOrderByClause("articleCreateTime DESC");
+                example.setOrderByClause("articlePutTop DESC,articleSequence desc,articleCreateTime DESC");
                 Page<Article> articlePage = articleMapper.selectByExampleWithBLOBs(example);
                 pageList = new PageList<Article>(articlePage.getTotal(), seacher.getPageSize(), seacher.getPageNum(), articlePage.getResult());
             } catch (Exception e) {
@@ -97,7 +102,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Response<Boolean> addArticle(Article article) {
-        log.info("Input param,ActivityInfo: " + JSON.toJSONString(article));
+        log.info("Input param,Article: " + JSON.toJSONString(article));
         try {
             if (article == null) {
                 return Response.fail(BbsCenterEnum.request_params_null.getCode(), BbsCenterEnum.request_params_null.getMessage());
@@ -107,7 +112,7 @@ public class ArticleServiceImpl implements ArticleService {
                 return Response.fail(BbsCenterEnum.insert_memberAttr_error.getCode(), BbsCenterEnum.insert_memberAttr_error.getMessage());
             }
         } catch (Exception e) {
-            log.error("error.Activity.saveActivityInfo", e);
+            log.error("error.Activity.saveArticle", e);
             return Response.fail(BbsCenterEnum.exception_error.getCode(), BbsCenterEnum.exception_error.getMessage());
         }
         return Response.ok(true);
@@ -144,6 +149,26 @@ public class ArticleServiceImpl implements ArticleService {
             }
         } catch (Exception e) {
             log.error("error.Article.updateArticle", e);
+            return Response.fail(BbsCenterEnum.exception_error.getCode(), BbsCenterEnum.exception_error.getMessage());
+        }
+        return Response.ok(true);
+    }
+
+    @Override
+    public Response<Boolean> putTop(QueryArticleVo articleVo) {
+        try {
+            Article article = articleMapper.selectByPrimaryKey(articleVo.getArticleId());
+            if( article!=null){
+                Article articleUpdate = new Article();
+                articleUpdate.setArticleId(articleVo.getArticleId());
+                articleUpdate.setArticlePutTop(articleVo.getArticlePutTop());
+                articleUpdate.setArticleSequence(articleVo.getArticleSequence());
+                articleMapper.updateByPrimaryKeySelective(articleUpdate);
+            }else {
+                return Response.fail("查找不到当前文章");
+            }
+        }catch (Exception e){
+            log.error("error.Article.putTop", e);
             return Response.fail(BbsCenterEnum.exception_error.getCode(), BbsCenterEnum.exception_error.getMessage());
         }
         return Response.ok(true);
