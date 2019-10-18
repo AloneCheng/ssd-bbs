@@ -1,57 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-<log4j:configuration>
+<log4j:configuration >
     <appender name="myConsole" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"  value="%d [%t] %-5p [%c] %L - %m%n" />
         </layout>
         <!--过滤器设置输出的级别-->
-        <!--<filter class="org.apache.log4j.varia.LevelRangeFilter">-->
-            <!--<param name="levelMin" value="ALL" />-->
-            <!--<param name="levelMax" value="ERROR" />-->
-            <!--<param name="AcceptOnMatch" value="true" />-->
-        <!--</filter>-->
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="levelMin" value="INFO" />
+            <param name="levelMax" value="ERROR" />
+        </filter>
     </appender>
 
-	<appender name="SysLog" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/opt/log/ssd-bbs.log"/>
-		  <param name="Append" value="true" />
-		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+	<!-- 输出日志到文件 -->
+	<appender name="fileAppender" class="org.apache.log4j.FileAppender">
+		<!-- 输出文件全路径名-->
+		<param name="File" value="/data/applogs/own/ssd-bbs-sys.log"/>
+		<!--是否在已存在的文件追加写：默认时true，若为false则每次启动都会删除并重新新建文件-->
+		<param name="Append" value="false"/>
+		<param name="Threshold" value="INFO"/>
+		<!--是否启用缓存，默认false-->
+		<param name="BufferedIO" value="false"/>
+		<!--缓存大小，依赖上一个参数(bufferedIO), 默认缓存大小8K  -->
+		<param name="BufferSize" value="512"/>
+		<!-- 日志输出格式 -->
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d [%t] %-5p [%c] %L - %m%n" />
+			<param name="ConversionPattern" value="[%p][%d{yyyy-MM-dd HH:mm:ss SSS}][%c] %L -%m%n"/>
 		</layout>
-		<filter class="org.apache.log4j.varia.LevelRangeFilter">
-			<param name="LevelMax" value="ALL"/>
-			<param name="LevelMin" value="INFO"/>
-		</filter>
 	</appender>
-	<!--<appender name="DataLog" class="org.apache.log4j.DailyRollingFileAppender">-->
-		<!--<param name="File" value="/opt/log/ssd-bbs.log"/>-->
-		  <!--<param name="Append" value="true" />-->
-		<!--<param name="DatePattern" value="'.'yyyy-MM-dd" />-->
-		<!--<layout class="org.apache.log4j.PatternLayout">-->
-			<!--<param name="ConversionPattern" value="%m%n" />-->
-		<!--</layout>-->
-		<!--<filter class="org.apache.log4j.varia.LevelRangeFilter">-->
-			<!--<param name="LevelMax" value="INFO"/>-->
-			<!--<param name="LevelMin" value="INFO"/>-->
-		<!--</filter>-->
-	<!--</appender>-->
-
-	<!--<category name="com.geda.site.common.log.DataLog" additivity="false">-->
-       <!--<appender-ref ref="DataLog"/>-->
-    <!--</category>-->
-    <!--myibatis log configure-->
-    <!--<logger name="com.apache.ibatis" level="DEBUG" />-->
-    <!--<logger name="java.sql.Connection" level="DEBUG"/>-->
-    <!--<logger name="java.sql.Statement" level="DEBUG"/>-->
-    <!--<logger name="java.sql.PreparedStatement" level="DEBUG"/>-->
 
 	<root>
 <!--         <priority value ="INFO" />        -->
-        <priority value ="ALL"/>
+        <!--<priority value ="ALL"/>-->
         <appender-ref ref="myConsole"/>
-        <appender-ref ref="SysLog" />
+        <appender-ref ref="fileAppender" />
 	</root>
 
 </log4j:configuration>
