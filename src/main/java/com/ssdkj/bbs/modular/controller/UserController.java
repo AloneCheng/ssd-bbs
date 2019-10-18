@@ -11,10 +11,14 @@ import com.ssdkj.bbs.modular.model.User;
 import com.ssdkj.bbs.modular.model.User;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RequestMapping("/user")
 @RestController
@@ -23,6 +27,31 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Value("${ssd-bbs.url}")
+    private String baseUrl;
+
+    @Value("${ssd-bbs.wechat.url}")
+    private String wechatLoginUrl;
+
+    @RequestMapping("auth")
+    @ResponseBody
+    public void auth(String code, String state, HttpServletResponse response) {
+        try {
+            String url = "";
+            Response<User> userResp = userService.auth(code, state);
+            if (userResp.isOk() && userResp.getResult() != null) {
+                url = baseUrl + "?userId=" + userResp.getResult().getUserId();
+            } else {
+                url =wechatLoginUrl;
+            }
+            log.info("授权处理后跳转地址: "+url);
+            response.sendRedirect(url);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody

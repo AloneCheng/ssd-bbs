@@ -14,4 +14,7 @@ public interface UserService {
     public Response<Boolean> removeUser(long userId);
 
     public Response<Boolean> updateUser(User user);
+
+    public Response<User> auth(String code, String state);
+
 }

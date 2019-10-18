@@ -1,11 +1,14 @@
 package com.ssdkj.bbs.modular.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.ssdkj.bbs.common.dto.PageList;
 import com.ssdkj.bbs.common.dto.Response;
 import com.ssdkj.bbs.common.enums.BbsCenterEnum;
+import com.ssdkj.bbs.core.util.StringUtils;
+import com.ssdkj.bbs.core.util.WeChatUtil;
 import com.ssdkj.bbs.modular.api.UserService;
 import com.ssdkj.bbs.modular.dao.UserMapper;
 import com.ssdkj.bbs.modular.dao.UserMapper;
@@ -15,9 +18,13 @@ import com.ssdkj.bbs.modular.model.UserExample;
 import com.ssdkj.bbs.modular.model.User;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @Log4j
@@ -30,6 +37,8 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserManager manager;
 
+    @Value("${ssd-bbs.admin.OpenId}")
+    private String adminOpenId;
 
     @Override
     public Response<User> queryUser(long userId) {
@@ -132,5 +141,64 @@ public class UserServiceImpl implements UserService{
             return Response.fail(BbsCenterEnum.exception_error.getCode(), BbsCenterEnum.exception_error.getMessage());
         }
         return Response.ok(true);
+    }
+
+
+    public Response<User> auth(String code,String state) {
+        log.info("code:  "+code+"\tstate:"+state);
+        try {
+            Map<String,Object> map = new HashMap<>();
+            if(code!=null) {
+                //1.通过code来换取access_token
+                JSONObject json = WeChatUtil.getWebAccessToken(code);
+                //获取网页授权access_token凭据
+                String webAccessToken = json.getString("access_token");
+                if (StringUtils.isBlank(webAccessToken)) {
+                    throw new RuntimeException("用户授权,授权失败");
+                }
+                //获取用户openid
+                String openid = json.getString("openid");
+                //2.通过access_token和openid拉取用户信息
+                JSONObject userInfo = WeChatUtil.getUserInfo(webAccessToken, openid);
+                //获取json对象中的键值对集合
+                Set<Map.Entry<String, Object>> entries = userInfo.entrySet();
+                for (Map.Entry<String, Object> entry : entries) {
+                    //把键值对作为属性设置到mmap中
+                    map.put(entry.getKey(),entry.getValue());
+                }
+                log.info("用户信息:  "+map);
+                User user = null;
+                UserExample example = new UserExample();
+                UserExample.Criteria cia = example.createCriteria();
+                cia.andOpenIdEqualTo(openid);
+                Page<User> respUser = userMapper.selectByExample(example);
+                log.info(JSON.toJSONString(respUser));
+                if (respUser.getResult().size()<1){
+                    log.info("-------不存在,先注册------------");
+                    //不存在,先注册
+                    user = new User();
+                    user.setOpenId(map.get("openid").toString());
+                    user.setUserSex(map.get("sex")==null?-1:(Integer)map.get("sex"));
+                    user.setNickName(map.get("nickname").toString());
+                    user.setHeadImgurl(map.get("headimgurl").toString());
+                    if (user.getOpenId().equals(adminOpenId)){
+                        user.setUserRole("1");
+                    }else {
+                        user.setUserRole("2");
+                    }
+                    int result = userMapper.insert(user);
+                    if (result<0){
+                        return Response.fail("注册失败!");
+                    }
+                }else {
+                    log.info("-------已存在,直接登录------------");
+                    user = respUser.getResult().get(0);
+                }
+                return Response.ok(user);
+            }
+        }catch (Exception e){
+            log.error(e);
+        }
+        return null;
     }
 }
