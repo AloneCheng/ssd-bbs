@@ -34,7 +34,7 @@ public class UserController {
     @Value("${ssd-bbs.wechat.url}")
     private String wechatLoginUrl;
 
-    @RequestMapping("auth")
+    @RequestMapping("/auth")
     @ResponseBody
     public void auth(String code, String state, HttpServletResponse response) {
         try {
