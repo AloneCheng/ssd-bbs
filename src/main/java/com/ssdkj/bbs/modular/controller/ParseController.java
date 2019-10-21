@@ -10,6 +10,7 @@ import com.ssdkj.bbs.modular.api.ArticleService;
 import com.ssdkj.bbs.modular.api.ParseRecordService;
 import com.ssdkj.bbs.modular.model.Article;
 import com.ssdkj.bbs.modular.model.ParseRecord;
+import com.ssdkj.bbs.modular.model.ParseResult;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,8 @@ public class ParseController {
     public HttpResponse parseArticle(@RequestBody ParseRecord parseRecord) {
         log.info("Invoke articleService.parseArticle,input param: " + JSON.toJSONString(parseRecord));
         //1.点赞记录表操作
+        ParseResult parseResult = new ParseResult();
+        parseResult.setArticleId(parseRecord.getArticleId());
         Article article = new Article();
         article.setArticleId(parseRecord.getArticleId());
         QueryArticleVo articleVo = new QueryArticleVo();
@@ -48,11 +51,14 @@ public class ParseController {
                 //有记录说明是取消点赞
                 parseRecordService.removeParseRecord(recordResponse.getResult().getParseId());
                 parseCount = articleResponse.getResult().getArticleParseCount() - 1 < 0 ? 0 : articleResponse.getResult().getArticleParseCount() - 1;
+                parseResult.setIsParse(0);
+                parseResult.setParseCount(parseCount);
             } else {
                 //没有就是点赞,添加记录
-//                parseRecord.setParseId(SnowflakeIdWorker.getID());
                 parseRecordService.addParseRecord(parseRecord);
                 parseCount = articleResponse.getResult().getArticleParseCount() + 1;
+                parseResult.setIsParse(1);
+                parseResult.setParseCount(parseCount);
             }
         }else {
             return HttpResponse.convert(recordResponse);
@@ -61,8 +67,9 @@ public class ParseController {
         //2.更新文章表的点赞数量
         Response<Boolean> response = articleService.updateArticle(article);
         log.info("Invoke articleService.parseArticle,resp: " + JSON.toJSONString(response));
-        return HttpResponse.ok(parseCount);
+        return HttpResponse.ok(parseResult);
     }
+
 
 
 }

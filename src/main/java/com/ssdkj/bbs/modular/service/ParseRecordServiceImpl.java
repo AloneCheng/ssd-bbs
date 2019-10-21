@@ -63,40 +63,6 @@ public class ParseRecordServiceImpl implements ParseRecordService {
         return Response.ok(parseRecordPage.getTotal()==0?null:parseRecordPage.getResult().get(0));
     }
 
-//    @Override
-//    public Response<PageList<ParseRecord>> queryParseRecords(ParseRecord seacher) {
-//        {
-//            PageList<ParseRecord> pageList = null;
-//            try {
-//                log.info("Input param,ParseRecordSeacher: " + JSON.toJSONString(seacher));
-//                if (seacher == null) {
-//                    return Response.fail(BbsCenterEnum.request_params_null.getCode(), BbsCenterEnum.request_params_null.getMessage());
-//                }
-//                //默认值
-//                if (seacher.getPageNum() < 1) {
-//                    seacher.setPageNum(1);
-//                }
-//                if (seacher.getPageSize() < 1) {
-//                    seacher.setPageSize(15);
-//                }
-//                if (seacher.getPageSize() > 0) {
-//                    PageHelper.startPage(seacher.getPageNum(), seacher.getPageSize());
-//                }
-//                ParseRecordExample example = new ParseRecordExample();
-//                ParseRecordExample.Criteria cia = example.createCriteria();
-//                if (seacher.getParseRecordType() != null) {
-//                    cia.andParseRecordTypeEqualTo(seacher.getParseRecordType());
-//                }
-//                example.setOrderByClause("parseRecordCreateTime DESC");
-//                Page<ParseRecord> parseRecordPage = parseRecordMapper.selectByExample(example);
-//                pageList = new PageList<ParseRecord>(parseRecordPage.getTotal(), seacher.getPageSize(), seacher.getPageNum(), parseRecordPage.getResult());
-//            } catch (Exception e) {
-//                log.error("error.get.parseRecord.list", e);
-//                return Response.fail("error.get.parseRecord.list", e.getMessage());
-//            }
-//            return Response.ok(pageList);
-//        }
-//    }
 
     @Override
     public Response<Boolean> addParseRecord(ParseRecord parseRecord) {
@@ -150,5 +116,51 @@ public class ParseRecordServiceImpl implements ParseRecordService {
             return Response.fail(BbsCenterEnum.exception_error.getCode(), BbsCenterEnum.exception_error.getMessage());
         }
         return Response.ok(true);
+    }
+
+    @Override
+    public Response<List<ParseRecord>> parseByArticleIds(Long parseAuthorId,List<Long> articleIds) {
+        try {
+            ParseRecordExample example = new ParseRecordExample();
+            ParseRecordExample.Criteria cia = example.createCriteria();
+            if (articleIds!=null && articleIds.size()>0) {
+                cia.andArticleIdIn(articleIds);
+            }else {
+                return Response.fail("批量查询是否点赞,文章ID不能为空");
+            }
+            if (parseAuthorId!=null) {
+                cia.andParseAuthorIdEqualTo(parseAuthorId);
+            }else {
+                return Response.fail("批量查询是否点赞,点赞人ID不能为空");
+            }
+            Page<ParseRecord> pageResp= parseRecordMapper.selectByExample(example);
+            return Response.ok(pageResp.getResult());
+        }catch (Exception e){
+            log.error("error.ParseRecord.isParse", e);
+            return Response.fail(BbsCenterEnum.exception_error.getCode(), BbsCenterEnum.exception_error.getMessage());
+        }
+    }
+
+    @Override
+    public Response<Boolean> isParse(ParseRecord parseRecord) {
+        try {
+            ParseRecordExample example = new ParseRecordExample();
+            ParseRecordExample.Criteria cia = example.createCriteria();
+            if (parseRecord.getArticleId()!=null) {
+                cia.andArticleIdEqualTo(parseRecord.getArticleId());
+            }
+            if (parseRecord.getParseAuthorId()!=null) {
+                cia.andParseAuthorIdEqualTo(parseRecord.getParseAuthorId());
+            }
+            int result = parseRecordMapper.countByExample(example);
+            if (result>0){
+                return Response.ok(true);
+            }else {
+                return Response.ok(false);
+            }
+        }catch (Exception e){
+            log.error("error.ParseRecord.isParse", e);
+            return Response.fail(BbsCenterEnum.exception_error.getCode(), BbsCenterEnum.exception_error.getMessage());
+        }
     }
 }

@@ -8,7 +8,7 @@ import com.ssdkj.bbs.modular.model.Article;
 public interface ArticleService {
     public Response<Article> queryArticle(QueryArticleVo articleVo);
 
-    public Response<PageList<Article>> queryArticles(Article article);
+    public Response<PageList<Article>> queryArticles(QueryArticleVo article);
 
     public Response<Boolean> addArticle(Article article);
 

@@ -99,4 +99,5 @@ public interface ParseRecordMapper {
      * @mbggenerated Mon Oct 14 13:51:24 CST 2019
      */
     int updateByPrimaryKey(ParseRecord record);
+
 }

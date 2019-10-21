@@ -21,6 +21,9 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Log4j
 public class ArticleServiceImpl implements ArticleService {
@@ -48,8 +51,8 @@ public class ArticleServiceImpl implements ArticleService {
                 ParseRecord parseRecord = new ParseRecord();
                 parseRecord.setArticleId(articleVo.getArticleId());
                 parseRecord.setParseAuthorId(articleVo.getParseAuthorId());
-                Response<ParseRecord>  parseRecordResponse = parseRecordService.queryParseRecord(parseRecord);
-                if (parseRecordResponse.isOk() && parseRecordResponse.getResult()!=null){
+                Response<Boolean> isParse = parseRecordService.isParse(parseRecord);
+                if (isParse.isOk() && isParse.getResult()==true){
                     article.setIsParse(1);
                 }else {
                     article.setIsParse(0);
@@ -63,7 +66,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Response<PageList<Article>> queryArticles(Article seacher) {
+    public Response<PageList<Article>> queryArticles(QueryArticleVo  seacher) {
         {
             PageList<Article> pageList = null;
             try {
@@ -92,6 +95,27 @@ public class ArticleServiceImpl implements ArticleService {
                 example.setOrderByClause("articlePutTop DESC,articleSequence desc,articleCreateTime DESC");
                 Page<Article> articlePage = articleMapper.selectByExampleWithBLOBs(example);
                 pageList = new PageList<Article>(articlePage.getTotal(), seacher.getPageSize(), seacher.getPageNum(), articlePage.getResult());
+                log.info(JSON.toJSONString(pageList));
+                log.info(pageList.getList()!=null && seacher.getParseAuthorId()!=null);
+                if (pageList.getList()!=null && seacher.getParseAuthorId()!=null){
+                    List<Long>  articleIds = new ArrayList<>();
+                    for (Article article:articlePage.getResult()) {
+                        articleIds.add(article.getArticleId());
+                    }
+                    Response<List<ParseRecord>> paresRecordsResp = parseRecordService.parseByArticleIds(seacher.getParseAuthorId(),articleIds);
+                    log.info("parseRecordService.parseByArticleIds resp:"+JSON.toJSONString(paresRecordsResp));
+                    if (paresRecordsResp.isOk() && paresRecordsResp.getResult()!=null){
+                        List<ParseRecord> parseRecords = paresRecordsResp.getResult();
+                        for (Article article:articlePage.getResult()) {
+                            article.setIsParse(0);//默认是0
+                            for (ParseRecord parseRecord:parseRecords) {
+                                if (parseRecord.getArticleId()==article.getArticleId()){
+                                    article.setIsParse(1);
+                                }
+                            }
+                        }
+                    }
+                }
             } catch (Exception e) {
                 log.error("error.get.article.list", e);
                 return Response.fail("error.get.article.list", e.getMessage());
