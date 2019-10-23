@@ -4,11 +4,13 @@ package com.ssdkj.bbs.modular.service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.ssdkj.bbs.common.constants.QiNiuVariable;
 import com.ssdkj.bbs.common.dto.PageList;
 import com.ssdkj.bbs.common.dto.Response;
 import com.ssdkj.bbs.common.enums.BbsCenterEnum;
 import com.ssdkj.bbs.common.vo.HttpResponse;
 import com.ssdkj.bbs.common.vo.QueryArticleVo;
+import com.ssdkj.bbs.core.util.QiniuUtils;
 import com.ssdkj.bbs.core.util.StringUtils;
 import com.ssdkj.bbs.modular.api.ArticleService;
 import com.ssdkj.bbs.modular.api.ParseRecordService;
@@ -130,6 +132,9 @@ public class ArticleServiceImpl implements ArticleService {
         try {
             if (article == null) {
                 return Response.fail(BbsCenterEnum.request_params_null.getCode(), BbsCenterEnum.request_params_null.getMessage());
+            }
+            if ("anonymous.jpg".equals(article.getHeadImgurl())){
+                article.setHeadImgurl(QiNiuVariable.baseUrl+article.getHeadImgurl());
             }
             int reslut = manager.saveArticle(article);
             if (reslut < 1) {

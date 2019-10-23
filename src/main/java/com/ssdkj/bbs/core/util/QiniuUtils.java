@@ -12,6 +12,7 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import com.ssdkj.bbs.common.constants.QiNiuVariable;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
@@ -20,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 
 @Log4j
 public class QiniuUtils {
+
     //设置好账号的ACCESS_KEY和SECRET_KEY
     private static String ACCESS_KEY = QiNiuVariable.accessKey; //这两个登录七牛 账号里面可以找到
     private static String SECRET_KEY = QiNiuVariable.secretKey;

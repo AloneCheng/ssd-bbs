@@ -6,4 +6,5 @@ public class QiNiuVariable {
     public static final String secretKey = "LSdfEejNBINUlgxuNz1_qU5ZDt-rcwdaNuNiN2pF";
     public static final String bucket = "ssd-bbs";
     public static final String domain = "";
+    public static final String baseUrl = "http://pzcximdnk.bkt.clouddn.com/";
 }
